@@ -14,7 +14,245 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      internet_packages: {
+        Row: {
+          created_at: string
+          data_limit_gb: number | null
+          description: string | null
+          duration_days: number
+          id: string
+          name: string
+          price: number
+          speed_mbps: number
+          status: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          data_limit_gb?: number | null
+          description?: string | null
+          duration_days?: number
+          id?: string
+          name: string
+          price: number
+          speed_mbps: number
+          status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          data_limit_gb?: number | null
+          description?: string | null
+          duration_days?: number
+          id?: string
+          name?: string
+          price?: number
+          speed_mbps?: number
+          status?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      invoices: {
+        Row: {
+          amount: number
+          created_at: string
+          customer_id: string
+          due_date: string
+          id: string
+          invoice_number: string
+          status: string | null
+          subscription_id: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          customer_id: string
+          due_date: string
+          id?: string
+          invoice_number: string
+          status?: string | null
+          subscription_id?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          customer_id?: string
+          due_date?: string
+          id?: string
+          invoice_number?: string
+          status?: string | null
+          subscription_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payments: {
+        Row: {
+          amount: number
+          created_at: string
+          customer_id: string
+          id: string
+          payment_date: string | null
+          payment_method: string
+          status: string | null
+          subscription_id: string | null
+          transaction_id: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          customer_id: string
+          id?: string
+          payment_date?: string | null
+          payment_method: string
+          status?: string | null
+          subscription_id?: string | null
+          transaction_id?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          customer_id?: string
+          id?: string
+          payment_date?: string | null
+          payment_method?: string
+          status?: string | null
+          subscription_id?: string | null
+          transaction_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          address: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          phone: string | null
+          role: string | null
+          status: string | null
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          full_name?: string | null
+          id: string
+          phone?: string | null
+          role?: string | null
+          status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          role?: string | null
+          status?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          auto_renew: boolean | null
+          created_at: string
+          customer_id: string
+          end_date: string
+          id: string
+          package_id: string
+          start_date: string
+          status: string | null
+          updated_at: string
+        }
+        Insert: {
+          auto_renew?: boolean | null
+          created_at?: string
+          customer_id: string
+          end_date: string
+          id?: string
+          package_id: string
+          start_date?: string
+          status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          auto_renew?: boolean | null
+          created_at?: string
+          customer_id?: string
+          end_date?: string
+          id?: string
+          package_id?: string
+          start_date?: string
+          status?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_package_id_fkey"
+            columns: ["package_id"]
+            isOneToOne: false
+            referencedRelation: "internet_packages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      usage_records: {
+        Row: {
+          customer_id: string
+          data_used_mb: number | null
+          id: string
+          recorded_at: string
+          session_end: string | null
+          session_start: string | null
+          subscription_id: string
+        }
+        Insert: {
+          customer_id: string
+          data_used_mb?: number | null
+          id?: string
+          recorded_at?: string
+          session_end?: string | null
+          session_start?: string | null
+          subscription_id: string
+        }
+        Update: {
+          customer_id?: string
+          data_used_mb?: number | null
+          id?: string
+          recorded_at?: string
+          session_end?: string | null
+          session_start?: string | null
+          subscription_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "usage_records_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
